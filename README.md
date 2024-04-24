@@ -1,2 +1,2 @@
-# MusseHidru.github.io
+# Musse Hidru
 This is my portfolio repo
