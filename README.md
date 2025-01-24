@@ -1,13 +1,25 @@
-<!-- # Musse Hidru
--->
-<style>
-    iframe {
-        width: 100%; /* Full width of the viewport */
-        height: 100vh; /* Full height of the viewport */
-        border: none; /* Optional: Remove iframe border */
-    }
-</style>
-
-<iframe src="Assets/MusseHidru_Portfolio.pdf" width="100%" height="600px">
-    Your browser does not support iframes. <a href="Assets/MusseHidru_Portfolio.pdf">Download the PDF</a>
-</iframe>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Screen PDF</title>
+    <style>
+        /* Ensure the iframe fills the entire screen */
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%; /* Full height of the viewport */
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        iframe {
+            width: 100%; /* Full width of the viewport */
+            height: 100%; /* Full height of the viewport */
+            border: none; /* Remove border */
+        }
+    </style>
+</head>
+<body>
+    <iframe src="Assets/MusseHidru_Portfolio.pdf"></iframe>
+</body>
+</html>
