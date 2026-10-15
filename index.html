@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musse Hidru | Gameplay Designer &amp; Programmer</title>
+    <meta name="description" content="Portfolio of Musse Hidru, gameplay designer and gameplay programmer based in Chestermere, Alberta.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://electromos26.github.io/">
+    <meta property="og:title" content="Musse Hidru | Gameplay Designer &amp; Programmer">
+    <meta property="og:description" content="Gameplay designer and programmer. Unity, C#, systems design. Play my games and see my work.">
+    <meta property="og:image" content="https://electromos26.github.io/Assets/img/flashes-of-madness.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23102a2c'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-size='28' font-weight='700' text-anchor='middle' fill='%235fd3ad'%3EMH%3C/text%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #102a2c;
+            --surface: #193a3c;
+            --surface-2: #22484a;
+            --body: #c3d4d4;
+            --text: #ffffff;
+            --muted: #93b3b3;
+            --line: #2c5a5d;
+            --accent-text: #86e8c8;
+            --button: #5fd3ad;
+            --button-text: #0e2a2b;
+            --button-hover: #78dfbd;
+            --radius: 18px;
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Lato", system-ui, sans-serif;
+            line-height: 1.6;
+        }
+
+        a { color: inherit; }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: rgba(16, 42, 44, 0.92);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--line);
+        }
+
+        nav .wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+            gap: 16px;
+        }
+
+        nav .brand { font-weight: 700; text-decoration: none; }
+
+        nav ul {
+            display: flex;
+            gap: 22px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+        }
+
+        nav ul a { text-decoration: none; color: var(--muted); }
+        nav ul a:hover { color: var(--text); }
+
+        header.hero {
+            padding: 96px 0 72px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 8vw, 72px);
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        .hero .role {
+            margin: 12px 0 28px;
+            color: var(--muted);
+            font-size: clamp(16px, 2.5vw, 20px);
+        }
+
+        .hero .role span { color: var(--accent-text); }
+
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 22px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            border: 1px solid var(--line);
+            transition: background 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+        }
+
+        .btn:hover { border-color: var(--text); transform: translateY(-3px); box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35); }
+        .btn:active { transform: translateY(1px) scale(0.97); box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.35); transition-duration: 0.05s; }
+        .btn.primary { background: var(--button); border-color: var(--button); color: var(--button-text); }
+        .btn.primary:hover { background: var(--button-hover); border-color: var(--button-hover); }
+
+        section { padding: 56px 0; }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: clamp(26px, 4vw, 36px);
+            margin: 0 0 32px;
+        }
+
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--line);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .about-grid p { color: var(--body); margin: 0 0 16px; }
+
+        .radar { width: 100%; max-width: 540px; justify-self: center; }
+        .radar text { fill: var(--body); font-size: 20px; font-family: inherit; }
+
+        .two-col {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 48px;
+        }
+
+        .skill-groups { display: grid; gap: 22px; }
+
+        .skill-groups h3 {
+            margin: 0 0 10px;
+            font-size: 14px;
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+        .chip {
+            padding: 5px 13px;
+            border-radius: 999px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            font-size: 14px;
+        }
+
+        .chip.highlight { border-color: var(--accent-text); color: var(--accent-text); }
+
+        .study {
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+            background: var(--surface);
+            padding: 22px;
+            border-radius: var(--radius);
+        }
+
+        .study .icon {
+            flex: none;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--accent-text);
+            display: grid;
+            place-items: center;
+        }
+
+        .study h3 { margin: 0; font-size: 18px; }
+        .study p { margin: 2px 0; color: var(--muted); font-size: 14px; }
+        .study ul { margin: 12px 0 0; padding-left: 18px; color: var(--body); font-size: 14px; }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .job {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 24px;
+            border-top: 4px solid var(--accent, var(--accent-text));
+        }
+
+        .job h3 { margin: 0; font-size: 20px; }
+        .job .meta { color: var(--muted); font-size: 14px; margin: 2px 0 14px; }
+        .job .meta b { color: var(--text); font-weight: 700; }
+        .job ul { margin: 0; padding-left: 18px; color: var(--body); font-size: 15px; }
+        .job li + li { margin-top: 6px; }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .project {
+            background: var(--surface);
+            border-radius: var(--radius);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            transition: transform 0.15s;
+        }
+
+        .project:hover { transform: translateY(-4px); }
+
+        .project img {
+            width: 100%;
+            aspect-ratio: 315 / 250;
+            object-fit: cover;
+            display: block;
+            background: var(--surface-2);
+        }
+
+        .project .body { padding: 20px; display: flex; flex-direction: column; flex: 1; }
+        .project h3 { margin: 0; font-size: 19px; }
+        .role-tag { align-self: flex-start; margin: 8px 0 2px; padding: 3px 12px; border-radius: 999px; background: var(--surface-2); color: var(--accent-text); font-size: 13px; font-weight: 700; }
+        .project .meta { color: var(--muted); font-size: 13px; margin: 2px 0 12px; }
+        .project p { margin: 0 0 12px; color: var(--body); font-size: 14px; }
+        .project ul { margin: 0 0 16px; padding-left: 18px; color: var(--body); font-size: 14px; }
+        .project .play { margin-top: auto; color: var(--accent-text); font-weight: 700; font-size: 14px; }
+
+        .more { text-align: center; margin-top: 28px; }
+
+        .socials {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .social {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            text-decoration: none;
+            border: 1px solid transparent;
+            min-width: 0;
+            transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+        }
+
+        .social:hover { border-color: var(--line); transform: translateY(-3px); box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35); }
+        .social:active { transform: translateY(1px) scale(0.98); box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.35); transition-duration: 0.05s; }
+
+        .social svg { flex: none; width: 32px; height: 32px; }
+        .social small { display: block; color: var(--muted); font-size: 12px; }
+        .social span { overflow-wrap: anywhere; }
+
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        @media (max-width: 860px) {
+            .about-grid, .two-col { grid-template-columns: 1fr; gap: 32px; }
+            .cards, .projects, .socials { grid-template-columns: 1fr; }
+            nav ul { display: none; }
+            header.hero { padding: 64px 0 48px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) { .btn, .btn:hover, .btn:active, .social, .social:hover, .social:active { transform: none; } }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="wrap">
+            <a class="brand" href="#top">Musse Hidru</a>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero" id="top">
+        <div class="wrap">
+            <h1>Musse Hidru</h1>
+            <p class="role"><span>Gameplay Designer</span> | Gameplay Programmer</p>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <section id="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-grid">
+                <div>
+                    <p>I'm Musse, a game developer with over three years of experience building games and programming in C# with Unity. I specialize in gameplay and systems design, with a focus on UX, to build immersive and intuitive gameplay.</p>
+                    <p>I combine technical skill with design insight to craft seamless, engaging player experiences, and I love refining mechanics until they feel right in the player's hands.</p>
+                </div>
+                <svg class="radar" id="radar" viewBox="-100 -30 620 440" role="img" aria-label="Skill radar chart"></svg>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects">
+                <a class="project" href="https://teamkrakenhunters.itch.io/flashes-of-madness" target="_blank" rel="noopener">
+                    <img src="Assets/img/flashes-of-madness.jpg" alt="Flashes of Madness cover art" loading="lazy">
+                    <div class="body">
+                        <h3>Flashes of Madness</h3>
+                        <span class="role-tag">Gameplay Designer &amp; Programmer</span>
+                        <p class="meta">Unity · Sep 2024 – Apr 2025</p>
+                        <p>First-person horror where you use a flashlight and solve puzzles through tense, atmospheric environments.</p>
+                        <ul>
+                            <li>Designed gameplay loops balancing pacing and tension</li>
+                            <li>Built flashlight mechanics, puzzles, modular scene loading and saves</li>
+                        </ul>
+                        <span class="play">Play on itch.io →</span>
+                    </div>
+                </a>
+                <a class="project" href="https://notperz.itch.io/bubble-buddy" target="_blank" rel="noopener">
+                    <img src="Assets/img/bubble-buddy.png" alt="Bubble Buddy cover art" loading="lazy">
+                    <div class="body">
+                        <h3>Bubble Buddy</h3>
+                        <span class="role-tag">Gameplay Designer &amp; Programmer</span>
+                        <p class="meta">Unity · Game jam · Jan 2025</p>
+                        <p>Survive waves of fish as a bubble. Made in 2 weeks for Pirate Software Jam 16 and Global Game Jam.</p>
+                        <ul>
+                            <li>Bubbles are both your weapon and your health: a risk-reward loop</li>
+                            <li>Programmed controls, enemies, animations and leaderboard</li>
+                        </ul>
+                        <span class="play">Play on itch.io →</span>
+                    </div>
+                </a>
+                <a class="project" href="https://teamkrakenhunters.itch.io/wavydavy" target="_blank" rel="noopener">
+                    <img src="Assets/img/wavy-davy.png" alt="Wavy Davy cover art" loading="lazy">
+                    <div class="body">
+                        <h3>Wavy Davy</h3>
+                        <span class="role-tag">Gameplay Programmer</span>
+                        <p class="meta">Unity · Jul 2024 – Aug 2024</p>
+                        <p>A surfing competition game: build speed, dodge obstacles and land tricks for a high score.</p>
+                        <ul>
+                            <li>Modular arrow-combo system for trick sequences</li>
+                            <li>Multi-track music by phase, plus a leaderboard</li>
+                        </ul>
+                        <span class="play">Play on itch.io →</span>
+                    </div>
+                </a>
+            </div>
+            <div class="more">
+                <a class="btn" href="https://electromos26.itch.io" target="_blank" rel="noopener">More games on itch.io</a>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2 class="section-title">My Experience</h2>
+            <div class="cards">
+                <article class="job" style="--accent: #f26d6d">
+                    <h3>Double Rex Studios Inc.</h3>
+                    <p class="meta"><b>Junior Game Developer</b> · Apr 2025 – Present</p>
+                    <ul>
+                        <li>Develop gameplay systems and UI implementation for an unannounced title</li>
+                        <li>Diagnose and fix bugs across gameplay and UI systems</li>
+                        <li>Propose and implement features that improve user experience</li>
+                    </ul>
+                </article>
+                <article class="job" style="--accent: #e0a63a">
+                    <h3>Bow Valley College</h3>
+                    <p class="meta"><b>Mitacs Project Specialist</b> · Apr 2026 – Present</p>
+                    <ul>
+                        <li>Design and program game projects</li>
+                        <li>Debug and extend existing game systems</li>
+                    </ul>
+                    <p class="meta" style="margin-top: 18px"><b>Lab Instructor</b> · May 2024 – Mar 2026</p>
+                    <ul>
+                        <li>Teach game architecture and programming concepts</li>
+                        <li>Help students troubleshoot and fix bugs in their projects</li>
+                        <li>Guide students on game feel and refining their concepts</li>
+                    </ul>
+                </article>
+                <article class="job" style="--accent: #19a7b5">
+                    <h3>Kraken Hunters</h3>
+                    <p class="meta"><b>Lead Game Programmer, Game Designer</b> · Mar 2024 – Apr 2025</p>
+                    <ul>
+                        <li>Designed and built systems for horror, couch co-op, RPG, roguelike and VR titles</li>
+                        <li>Competed in the Indie Ignition Program against Calgary studios</li>
+                        <li>Shipped multiple games on itch.io, including Flashes of Madness</li>
+                    </ul>
+                </article>
+                <article class="job" style="--accent: #4a90c8">
+                    <h3>Knite Studios <span style="color: var(--muted); font-weight: 400; font-size: 15px;">(now Smooth Brain)</span></h3>
+                    <p class="meta"><b>Co-Founder, Game Designer, Game Programmer</b> · Sep 2023 – Mar 2024</p>
+                    <ul>
+                        <li>Designed and developed mechanics and UI/UX for small indie games</li>
+                        <li>Designed and prototyped a 2–5 player board game</li>
+                        <li>Released game jam prototypes such as Stick It and Dango</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="two-col">
+                <div>
+                    <h2 class="section-title">My Skills</h2>
+                    <div class="skill-groups">
+                        <div>
+                            <h3>Design</h3>
+                            <div class="chips">
+                                <span class="chip highlight">Gameplay Systems Design</span>
+                                <span class="chip highlight">Rapid Prototyping</span>
+                                <span class="chip">UI/UX Design</span>
+                                <span class="chip">Game Design Documentation</span>
+                                <span class="chip">Level Design</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h3>Engines &amp; Code</h3>
+                            <div class="chips">
+                                <span class="chip highlight">Unity</span>
+                                <span class="chip highlight">C#</span>
+                                <span class="chip">Code Architecture</span>
+                                <span class="chip">Physics-Based Interactions</span>
+                                <span class="chip">Unreal Engine (Blueprints)</span>
+                                <span class="chip">Pico-8</span>
+                                <span class="chip">VR</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h3>Tools</h3>
+                            <div class="chips">
+                                <span class="chip">JetBrains Rider</span>
+                                <span class="chip">Visual Studio</span>
+                                <span class="chip">Git</span>
+                                <span class="chip">GitHub</span>
+                                <span class="chip">Bitbucket</span>
+                                <span class="chip">Claude</span>
+                                <span class="chip">Figma</span>
+                            </div>
+                        </div>
+                        <div>
+                            <h3>Workflow</h3>
+                            <div class="chips">
+                                <span class="chip">Agile</span>
+                                <span class="chip">Jira</span>
+                                <span class="chip">Confluence</span>
+                                <span class="chip">Slack</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h2 class="section-title">Studies</h2>
+                    <div class="study">
+                        <div class="icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
+                        </div>
+                        <div>
+                            <h3>Bow Valley College</h3>
+                            <p>Advanced Game Development Diploma</p>
+                            <p>Jan 2023 – Dec 2024</p>
+                            <ul>
+                                <li>Gameplay systems, loops and encounter design</li>
+                                <li>Rapid prototyping, version control and Agile</li>
+                                <li>Hands-on Unity and Unreal development</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2 class="section-title">My Socials</h2>
+            <div class="socials">
+                <a class="social" href="https://github.com/Electromos26" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2c-3.2.7-3.9-1.5-3.9-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.7 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.7 1.7.3 2.9.1 3.2.8.8 1.2 1.9 1.2 3.1 0 4.4-2.7 5.4-5.3 5.7.4.4.8 1.1.8 2.2v3.2c0 .3.2.7.8.6A11.5 11.5 0 0 0 23.5 12C23.5 5.7 18.3.5 12 .5z"/></svg>
+                    <div><small>GitHub</small><span>Electromos26</span></div>
+                </a>
+                <a class="social" href="https://www.linkedin.com/in/musse-hidru" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="4" fill="#0a66c2"/><path fill="#fff" d="M7 9.5h-3v10h3zM5.5 4.5a1.75 1.75 0 1 0 0 3.5 1.75 1.75 0 0 0 0-3.5zM20 13.6c0-3-1.6-4.4-3.8-4.4-1.7 0-2.5.9-2.9 1.6V9.5h-3v10h3v-5.3c0-1.4.3-2.7 2-2.7s1.7 1.6 1.7 2.8v5.2h3z"/></svg>
+                    <div><small>LinkedIn</small><span>Musse Hidru</span></div>
+                </a>
+                <a class="social" href="https://electromos26.itch.io" target="_blank" rel="noopener">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="4" fill="#fa5c5c"/><path fill="#fff" d="M6 7.5 7.5 5h9L18 7.5v1.8c0 .9-.7 1.6-1.5 1.6s-1.5-.7-1.5-1.6c0 .9-.7 1.6-1.5 1.6S12 10.2 12 9.3c0 .9-.7 1.6-1.5 1.6S9 10.2 9 9.3c0 .9-.7 1.6-1.5 1.6S6 10.2 6 9.3zm.5 4.2c.4.2.7.2 1 .2.6 0 1.1-.2 1.5-.6.4.4.9.6 1.5.6s1.1-.2 1.5-.6c.4.4.9.6 1.5.6s1.1-.2 1.5-.6c.4.4.9.6 1.5.6.3 0 .6 0 1-.2V18c0 .6-.4 1-1 1h-10c-.6 0-1-.4-1-1zm3.5 2.1-1.2 1.4 1.2 1.4h.8l-.8-1.4.8-1.4zm4 0 .8 1.4-.8 1.4h.8l1.2-1.4-1.2-1.4z"/></svg>
+                    <div><small>itch.io</small><span>Electromos26</span></div>
+                </a>
+                <a class="social" href="mailto:musse.hidru@gmail.com">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="4.5" width="19" height="15" rx="2"/><path d="m3 6 9 7 9-7"/></svg>
+                    <div><small>Email</small><span>musse.hidru@gmail.com</span></div>
+                </a>
+            </div>
+            <div class="buttons" style="margin-top: 28px">
+                <a class="btn" href="#projects">See my games</a>
+                <a class="btn primary" href="Assets/Musse_Hidru_CV.pdf" download>Download CV</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>© <span id="year"></span> Musse Hidru</footer>
+
+    <script>
+        const skills = [
+            ["Game Design", 0.9],
+            ["Systems Design", 0.85],
+            ["UI/UX Design", 0.75],
+            ["Level Design", 0.55],
+            ["Rapid Prototyping", 0.85],
+            ["Gameplay Programming", 0.9]
+        ];
+
+        const svg = document.getElementById("radar");
+        const ns = "http://www.w3.org/2000/svg";
+        const cx = 210;
+        const cy = 190;
+        const radius = 130;
+        const point = (i, r) => {
+            const angle = -Math.PI / 2 + (i * 2 * Math.PI) / skills.length;
+            return [cx + Math.cos(angle) * r, cy + Math.sin(angle) * r];
+        };
+        const add = (tag, attrs) => {
+            const el = document.createElementNS(ns, tag);
+            Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
+            svg.appendChild(el);
+            return el;
+        };
+
+        for (let ring = 1; ring <= 4; ring++) {
+            const pts = skills.map((_, i) => point(i, (radius * ring) / 4).join(",")).join(" ");
+            add("polygon", { points: pts, fill: "none", stroke: "#2c5a5d" });
+        }
+
+        skills.forEach(([label], i) => {
+            const [x, y] = point(i, radius);
+            add("line", { x1: cx, y1: cy, x2: x, y2: y, stroke: "#2c5a5d" });
+            const [lx, ly] = point(i, radius + 22);
+            const isVertical = Math.abs(lx - cx) < 5;
+            const lines = label.split(" ");
+            const lineHeight = 22;
+            const firstY = isVertical
+                ? (ly < cy ? ly - (lines.length - 1) * lineHeight : ly + 18)
+                : ly + 8 - ((lines.length - 1) * lineHeight) / 2;
+            const text = add("text", { x: lx, y: firstY, "text-anchor": isVertical ? "middle" : lx > cx ? "start" : "end" });
+            lines.forEach((word, n) => {
+                const span = document.createElementNS(ns, "tspan");
+                span.setAttribute("x", lx);
+                if (n > 0) span.setAttribute("dy", lineHeight);
+                span.textContent = word;
+                text.appendChild(span);
+            });
+        });
+
+        const shape = skills.map(([, v], i) => point(i, radius * v).join(",")).join(" ");
+        add("polygon", { points: shape, fill: "rgba(134, 232, 200, 0.28)", stroke: "#86e8c8", "stroke-width": 2 });
+        skills.forEach(([, v], i) => {
+            const [x, y] = point(i, radius * v);
+            add("circle", { cx: x, cy: y, r: 4, fill: "#fff" });
+        });
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
