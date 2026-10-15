@@ -70,17 +70,54 @@
 
         nav .brand { font-weight: 700; text-decoration: none; }
 
+        nav .wrap { height: 68px; }
+
         nav ul {
+            position: relative;
             display: flex;
-            gap: 22px;
+            gap: 4px;
             list-style: none;
             margin: 0;
-            padding: 0;
+            padding: 4px;
             font-size: 14px;
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            contain: layout paint;
         }
 
-        nav ul a { text-decoration: none; color: var(--muted); }
+        nav ul a {
+            position: relative;
+            z-index: 1;
+            display: block;
+            padding: 7px 16px;
+            border-radius: 999px;
+            text-decoration: none;
+            color: var(--muted);
+            transition: color 0.3s;
+        }
+
         nav ul a:hover { color: var(--text); }
+        nav ul a.active { color: var(--button-text); }
+
+        .nav-pill {
+            --ease: cubic-bezier(0.65, 0, 0.35, 1);
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            left: var(--l, 4px);
+            right: var(--r, 100%);
+            border-radius: 999px;
+            background: var(--accent-text);
+            opacity: 0;
+            will-change: left, right, transform;
+            transition: left 0.3s var(--ease), right 0.3s var(--ease), opacity 0.2s, transform 0.3s var(--ease);
+        }
+
+        .nav-pill.on { opacity: 1; }
+        .nav-pill.to-right { transition-delay: 0.07s, 0s, 0s, 0s; }
+        .nav-pill.to-left { transition-delay: 0s, 0.07s, 0s, 0s; }
+        .nav-pill.moving { transform: scaleY(0.84); }
 
         header.hero {
             padding: 96px 0 72px;
@@ -352,6 +389,7 @@
         <div class="wrap">
             <a class="brand" href="#top">Musse Hidru</a>
             <ul>
+                <li class="nav-pill" aria-hidden="true"></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#projects">Projects</a></li>
                 <li><a href="#experience">Experience</a></li>
@@ -651,6 +689,101 @@
             const [x, y] = point(i, radius * v);
             add("circle", { cx: x, cy: y, r: 4, fill: "#fff" });
         });
+
+        const navList = document.querySelector("nav ul");
+        const navPill = document.querySelector(".nav-pill");
+        const navLinks = [...navList.querySelectorAll("a")];
+        let activeLink = null;
+        let settleTimer;
+
+        let sectionTops = [];
+        let pageBottom = 0;
+        let pillLeft = null;
+        let scrollQueued = false;
+
+        const measure = () => {
+            sectionTops = navLinks.map(link => document.querySelector(link.getAttribute("href")).offsetTop);
+            pageBottom = document.documentElement.scrollHeight - window.innerHeight - 4;
+        };
+
+        const movePill = link => {
+            if (!link) {
+                navPill.classList.remove("on");
+                pillLeft = null;
+                return;
+            }
+            const left = link.offsetLeft;
+            const right = navList.clientWidth - left - link.offsetWidth;
+            const moving = pillLeft !== null && left !== pillLeft;
+            navPill.classList.toggle("to-right", moving && left > pillLeft);
+            navPill.classList.toggle("to-left", moving && left < pillLeft);
+            navPill.classList.toggle("moving", moving);
+            navPill.style.setProperty("--l", `${left}px`);
+            navPill.style.setProperty("--r", `${right}px`);
+            navPill.classList.add("on");
+            pillLeft = left;
+            clearTimeout(settleTimer);
+            settleTimer = setTimeout(() => navPill.classList.remove("moving"), 220);
+        };
+
+        let clickLock = false;
+        let unlockTimer;
+
+        const highlight = link => {
+            if (link === activeLink) return;
+            activeLink?.classList.remove("active");
+            link?.classList.add("active");
+            activeLink = link;
+            movePill(link);
+        };
+
+        const releaseLock = () => {
+            clearTimeout(unlockTimer);
+            unlockTimer = setTimeout(() => {
+                clickLock = false;
+                setActive();
+            }, 150);
+        };
+
+        navLinks.forEach(link => link.addEventListener("click", () => {
+            clickLock = true;
+            highlight(link);
+            releaseLock();
+        }));
+
+        const setActive = () => {
+            scrollQueued = false;
+            if (clickLock) {
+                releaseLock();
+                return;
+            }
+            const y = window.scrollY;
+            const probe = y + window.innerHeight * 0.35;
+            let index = -1;
+            sectionTops.forEach((top, i) => { if (top <= probe) index = i; });
+            if (y >= pageBottom) index = navLinks.length - 1;
+            highlight(navLinks[index] || null);
+        };
+
+        const remeasure = () => {
+            measure();
+            if (activeLink) {
+                pillLeft = null;
+                movePill(activeLink);
+            }
+            setActive();
+        };
+
+        window.addEventListener("scroll", () => {
+            if (scrollQueued) return;
+            scrollQueued = true;
+            requestAnimationFrame(setActive);
+        }, { passive: true });
+        window.addEventListener("resize", remeasure);
+        window.addEventListener("load", remeasure);
+        document.fonts.ready.then(remeasure);
+        measure();
+        setActive();
 
         document.getElementById("year").textContent = new Date().getFullYear();
     </script>
