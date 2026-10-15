@@ -25,9 +25,9 @@
             --muted: #93b3b3;
             --line: #2c5a5d;
             --accent-text: #86e8c8;
-            --button: #5fd3ad;
+            --button: #1a7a5f;
             --button-text: #0e2a2b;
-            --button-hover: #78dfbd;
+            --button-hover: #208d6e;
             --radius: 18px;
         }
 
@@ -121,7 +121,7 @@
 
         .btn:hover { border-color: var(--text); transform: translateY(-3px); box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35); }
         .btn:active { transform: translateY(1px) scale(0.97); box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.35); transition-duration: 0.05s; }
-        .btn.primary { background: var(--button); border-color: var(--button); color: var(--button-text); }
+        .btn.primary { background: var(--button); border-color: var(--button); color: #fff; }
         .btn.primary:hover { background: var(--button-hover); border-color: var(--button-hover); }
 
         section { padding: 56px 0; }
@@ -212,15 +212,59 @@
         }
 
         .job {
+            position: relative;
+            overflow: hidden;
             background: var(--surface);
             border-radius: var(--radius);
-            padding: 24px;
-            border-top: 4px solid var(--accent, var(--accent-text));
+            padding: 0 24px 24px;
         }
 
-        .job h3 { margin: 0; font-size: 20px; }
+        .job-banner {
+            position: relative;
+            height: 160px;
+            margin: 0 -24px;
+            background: var(--banner-bg, var(--accent)) center / cover;
+            border-bottom: 4px solid var(--accent);
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+        }
+
+        .job-banner > img { max-height: var(--logo-h, 120px); max-width: 80%; }
+        .job-banner > img.wide { max-height: none; max-width: none; width: 100%; height: 100%; object-fit: cover; }
+
+        .job-corner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 165px;
+            height: 72px;
+            overflow: hidden;
+            background: #fff;
+            border-bottom-right-radius: 16px;
+        }
+
+        .job-corner img { position: absolute; width: 250px; left: -50px; top: -25px; }
+
+        .job-tag {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            padding: 3px 12px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .job-head { margin: 18px 0 14px; }
+        .job-head .meta { margin-bottom: 0; }
+
+        .job h3 { margin: 0; font-size: 20px; color: color-mix(in srgb, var(--accent, var(--accent-text)) 55%, #fff); }
         .job .meta { color: var(--muted); font-size: 14px; margin: 2px 0 14px; }
-        .job .meta b { color: var(--text); font-weight: 700; }
+        .job .meta b { color: color-mix(in srgb, var(--accent, var(--accent-text)) 35%, #fff); font-weight: 700; }
+        .job li::marker { color: var(--accent, var(--accent-text)); }
         .job ul { margin: 0; padding-left: 18px; color: var(--body); font-size: 15px; }
         .job li + li { margin-top: 6px; }
 
@@ -320,7 +364,7 @@
     <header class="hero" id="top">
         <div class="wrap">
             <h1>Musse Hidru</h1>
-            <p class="role"><span>Game Designer</span> | Gameplay Programmer</p>
+            <p class="role"><span>Game Designer</span> | <span>Gameplay Programmer</span></p>
         </div>
     </header>
 
@@ -390,18 +434,28 @@
         <section id="experience">
             <h2 class="section-title">My Experience</h2>
             <div class="cards">
-                <article class="job" style="--accent: #f26d6d">
-                    <h3>Double Rex Studios Inc.</h3>
-                    <p class="meta"><b>Junior Game Developer</b> · Apr 2025 – Present</p>
+                <article class="job" style="--accent: #f26d6d; --banner-bg: linear-gradient(#111111, #4a1d24)">
+                    <div class="job-banner"><img src="Assets/img/logo-double-rex.png" alt="Double Rex Studios logo" loading="lazy"></div>
+                    <span class="job-tag">Current</span>
+                    <div class="job-head">
+                        <h3>Double Rex Studios Inc.</h3>
+                        <p class="meta"><b>Junior Game Developer</b> · Apr 2025 – Present</p>
+                    </div>
                     <ul>
                         <li>Develop gameplay systems and UI implementation for an unannounced title</li>
                         <li>Diagnose and fix bugs across gameplay and UI systems</li>
                         <li>Propose and implement features that improve user experience</li>
                     </ul>
                 </article>
-                <article class="job" style="--accent: #e0a63a">
-                    <h3>Bow Valley College</h3>
-                    <p class="meta"><b>Mitacs Project Specialist</b> · Apr 2026 – Present</p>
+                <article class="job" style="--accent: #e0a63a; --banner-bg: url('Assets/img/bow-valley-campus.png')">
+                    <div class="job-banner">
+                        <div class="job-corner"><img src="Assets/img/logo-bow-valley.png" alt="Bow Valley College logo" loading="lazy"></div>
+                    </div>
+                    <span class="job-tag">Current</span>
+                    <div class="job-head">
+                        <h3>Bow Valley College</h3>
+                        <p class="meta"><b>Mitacs Project Specialist</b> · Apr 2026 – Present</p>
+                    </div>
                     <ul>
                         <li>Design and program game projects</li>
                         <li>Debug and extend existing game systems</li>
@@ -413,18 +467,24 @@
                         <li>Guide students on game feel and refining their concepts</li>
                     </ul>
                 </article>
-                <article class="job" style="--accent: #19a7b5">
-                    <h3>Kraken Hunters</h3>
-                    <p class="meta"><b>Lead Game Programmer, Game Designer</b> · Mar 2024 – Apr 2025</p>
+                <article class="job" style="--accent: #19a7b5; --banner-bg: linear-gradient(#17e0c8, #05363b)">
+                    <div class="job-banner"><img src="Assets/img/logo-kraken-hunters.png" alt="Kraken Hunters logo" loading="lazy"></div>
+                    <div class="job-head">
+                        <h3>Kraken Hunters</h3>
+                        <p class="meta"><b>Lead Game Programmer, Game Designer</b> · Mar 2024 – Apr 2025</p>
+                    </div>
                     <ul>
                         <li>Designed and built systems for horror, couch co-op, RPG, roguelike and VR titles</li>
                         <li>Competed in the Indie Ignition Program against Calgary studios</li>
                         <li>Shipped multiple games on itch.io, including Flashes of Madness</li>
                     </ul>
                 </article>
-                <article class="job" style="--accent: #4a90c8">
-                    <h3>Knite Studios <span style="color: var(--muted); font-weight: 400; font-size: 15px;">(now Smooth Brain)</span></h3>
-                    <p class="meta"><b>Co-Founder, Game Designer, Game Programmer</b> · Sep 2023 – Mar 2024</p>
+                <article class="job" style="--accent: #4a90c8; --banner-bg: #3fb8f5">
+                    <div class="job-banner"><img class="wide" src="Assets/img/logo-knite.png" alt="Knite Studios logo" loading="lazy"></div>
+                    <div class="job-head">
+                        <h3>Knite Studios <span style="color: var(--muted); font-weight: 400; font-size: 15px;">(now Smooth Brain)</span></h3>
+                        <p class="meta"><b>Co-Founder, Game Designer, Game Programmer</b> · Sep 2023 – Mar 2024</p>
+                    </div>
                     <ul>
                         <li>Designed and developed mechanics and UI/UX for small indie games</li>
                         <li>Designed and prototyped a 2–5 player board game</li>
@@ -488,7 +548,7 @@
                     <h2 class="section-title">Studies</h2>
                     <div class="study">
                         <div class="icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--button-text)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 9 12 4 2 9l10 5 10-5z" fill="var(--button-text)"/><path d="M6 11.2V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-4.8"/><path d="M22 9v6"/></svg>
                         </div>
                         <div>
                             <h3>Bow Valley College</h3>
