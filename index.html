@@ -178,17 +178,8 @@
             background: var(--line);
         }
 
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1.1fr 1fr;
-            gap: 48px;
-            align-items: center;
-        }
-
-        .about-grid p { color: var(--body); margin: 0 0 16px; }
-
-        .radar { width: 100%; max-width: 540px; justify-self: center; }
-        .radar text { fill: var(--body); font-size: 20px; font-family: inherit; }
+        .about p { max-width: 720px; color: var(--body); margin: 0 0 16px; }
+        .about .skill-groups { margin-top: 28px; }
 
         .two-col {
             display: grid;
@@ -377,7 +368,7 @@
         }
 
         @media (max-width: 860px) {
-            .about-grid, .two-col { grid-template-columns: 1fr; gap: 32px; }
+            .two-col { grid-template-columns: 1fr; gap: 32px; }
             .cards, .projects, .socials { grid-template-columns: 1fr; }
             nav ul { display: none; }
             header.hero { padding: 64px 0 48px; }
@@ -405,18 +396,36 @@
         <div class="wrap">
             <h1>Musse Hidru</h1>
             <p class="role"><span>Game Designer</span> | <span>Gameplay Programmer</span></p>
+            <div class="buttons">
+                <a class="btn" href="#projects">See my games</a>
+                <a class="btn primary" href="Assets/Musse_Hidru_CV.pdf" download>Download CV</a>
+            </div>
         </div>
     </header>
 
     <main class="wrap">
         <section id="about">
             <h2 class="section-title">About Me</h2>
-            <div class="about-grid">
-                <div>
-                    <p>I'm Musse, a game developer with over three years of experience building games and programming in C# with Unity. I specialize in gameplay and systems design, with a focus on UX, to build immersive and intuitive gameplay.</p>
-                    <p>I combine technical skill with design insight to craft seamless, engaging player experiences, and I love refining mechanics until they feel right in the player's hands.</p>
+            <div class="about">
+                <p>I'm Musse, a game developer with over three years of experience building games and programming in C# with Unity. I specialize in gameplay and systems design, with a focus on UX, to build immersive and intuitive gameplay.</p>
+                <p>I combine technical skill with design insight to craft seamless, engaging player experiences, and I love refining mechanics until they feel right in the player's hands.</p>
+                <div class="skill-groups">
+                    <div>
+                        <h3>Genres I've worked on</h3>
+                        <div class="chips">
+                            <span class="chip">Horror</span>
+                            <span class="chip">Adventure</span>
+                            <span class="chip">Platformer</span>
+                            <span class="chip">Action</span>
+                            <span class="chip">RPG</span>
+                            <span class="chip">Roguelike</span>
+                            <span class="chip">Local Co-op</span>
+                            <span class="chip">Social Deduction</span>
+                            <span class="chip">Minigames</span>
+                            <span class="chip">VR</span>
+                        </div>
+                    </div>
                 </div>
-                <svg class="radar" id="radar" viewBox="-100 -30 620 440" role="img" aria-label="Skill radar chart"></svg>
             </div>
         </section>
 
@@ -514,7 +523,7 @@
                         <p class="meta"><b>Lead Game Programmer, Game Designer</b> · Mar 2024 – Apr 2025</p>
                     </div>
                     <ul>
-                        <li>Designed and built systems for horror, couch co-op, RPG, roguelike and VR titles</li>
+                        <li>Designed and built systems for horror, local co-op, RPG, roguelike and VR titles</li>
                         <li>Competed in the Indie Ignition Program against Calgary studios</li>
                         <li>Shipped multiple games on itch.io, including Flashes of Madness</li>
                     </ul>
@@ -625,73 +634,12 @@
                     <div><small>Email</small><span>musse.hidru@gmail.com</span><em class="copied" aria-live="polite"></em></div>
                 </a>
             </div>
-            <div class="buttons" style="margin-top: 28px">
-                <a class="btn" href="#projects">See my games</a>
-                <a class="btn primary" href="Assets/Musse_Hidru_CV.pdf" download>Download CV</a>
-            </div>
         </section>
     </main>
 
     <footer>© <span id="year"></span> Musse Hidru</footer>
 
     <script>
-        const skills = [
-            ["Game Design", 0.9],
-            ["Systems Design", 0.85],
-            ["UI/UX Design", 0.75],
-            ["Level Design", 0.55],
-            ["Rapid Prototyping", 0.85],
-            ["Gameplay Programming", 0.9]
-        ];
-
-        const svg = document.getElementById("radar");
-        const ns = "http://www.w3.org/2000/svg";
-        const cx = 210;
-        const cy = 190;
-        const radius = 130;
-        const point = (i, r) => {
-            const angle = -Math.PI / 2 + (i * 2 * Math.PI) / skills.length;
-            return [cx + Math.cos(angle) * r, cy + Math.sin(angle) * r];
-        };
-        const add = (tag, attrs) => {
-            const el = document.createElementNS(ns, tag);
-            Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, v));
-            svg.appendChild(el);
-            return el;
-        };
-
-        for (let ring = 1; ring <= 4; ring++) {
-            const pts = skills.map((_, i) => point(i, (radius * ring) / 4).join(",")).join(" ");
-            add("polygon", { points: pts, fill: "none", stroke: "#2c5a5d" });
-        }
-
-        skills.forEach(([label], i) => {
-            const [x, y] = point(i, radius);
-            add("line", { x1: cx, y1: cy, x2: x, y2: y, stroke: "#2c5a5d" });
-            const [lx, ly] = point(i, radius + 22);
-            const isVertical = Math.abs(lx - cx) < 5;
-            const lines = label.split(" ");
-            const lineHeight = 22;
-            const firstY = isVertical
-                ? (ly < cy ? ly - (lines.length - 1) * lineHeight : ly + 18)
-                : ly + 8 - ((lines.length - 1) * lineHeight) / 2;
-            const text = add("text", { x: lx, y: firstY, "text-anchor": isVertical ? "middle" : lx > cx ? "start" : "end" });
-            lines.forEach((word, n) => {
-                const span = document.createElementNS(ns, "tspan");
-                span.setAttribute("x", lx);
-                if (n > 0) span.setAttribute("dy", lineHeight);
-                span.textContent = word;
-                text.appendChild(span);
-            });
-        });
-
-        const shape = skills.map(([, v], i) => point(i, radius * v).join(",")).join(" ");
-        add("polygon", { points: shape, fill: "rgba(134, 232, 200, 0.28)", stroke: "#86e8c8", "stroke-width": 2 });
-        skills.forEach(([, v], i) => {
-            const [x, y] = point(i, radius * v);
-            add("circle", { cx: x, cy: y, r: 4, fill: "#fff" });
-        });
-
         const navList = document.querySelector("nav ul");
         const navPill = document.querySelector(".nav-pill");
         const navLinks = [...navList.querySelectorAll("a")];
