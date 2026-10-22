@@ -166,18 +166,8 @@
         section:nth-of-type(odd) { background: var(--bg-alt); box-shadow: 0 0 0 100vmax var(--bg-alt); clip-path: inset(0 -100vmax); }
 
         .section-title {
-            display: flex;
-            align-items: center;
-            gap: 20px;
             font-size: clamp(26px, 4vw, 36px);
             margin: 0 0 32px;
-        }
-
-        .section-title::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: var(--line);
         }
 
         .about { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px; align-items: start; }
@@ -236,6 +226,9 @@
             display: grid;
             place-items: center;
         }
+
+        .studies { justify-self: end; }
+        .studies .section-title { text-align: right; }
 
         .study h3 { margin: 0; font-size: 18px; }
         .study p { margin: 2px 0; color: var(--muted); font-size: 14px; }
@@ -337,17 +330,7 @@
         .project ul { margin: 0 0 16px; padding-left: 18px; color: var(--body); font-size: 14px; }
         .project .play { margin-top: auto; color: var(--accent-text); font-weight: 700; font-size: 14px; }
 
-        .sub-title {
-            margin: 0 0 12px;
-            font-size: 14px;
-            color: var(--muted);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-        }
-
         .reel {
-            margin: 0 0 28px;
             background: var(--surface);
             border-radius: var(--radius);
             overflow: hidden;
@@ -400,6 +383,8 @@
 
         @media (max-width: 860px) {
             .two-col { grid-template-columns: 1fr; gap: 32px; }
+            .studies { justify-self: stretch; }
+            .studies .section-title { text-align: left; }
             .about { grid-template-columns: 1fr; gap: 28px; }
             .about-photo { order: -1; max-width: none; aspect-ratio: 16 / 10; }
             .cards, .projects, .socials { grid-template-columns: 1fr; }
@@ -438,9 +423,9 @@
 
     <main class="wrap">
         <section id="about">
-            <h2 class="section-title">About Me</h2>
             <div class="about">
                 <div>
+                    <h2 class="section-title">About Me</h2>
                     <p>I'm Musse, a game developer with over three years of experience building games and programming in C# with Unity. I specialize in gameplay and systems design, with a focus on UX, to build immersive and intuitive gameplay.</p>
                     <p>I combine technical skill with design insight to craft seamless, engaging player experiences, and I love refining mechanics until they feel right in the player's hands.</p>
                     <div class="skill-groups">
@@ -465,12 +450,15 @@
             </div>
         </section>
 
-        <section id="projects">
-            <h2 class="section-title">Projects</h2>
-            <h3 class="sub-title">Demo Reel</h3>
+        <section id="demo-reel">
+            <h2 class="section-title">Demo Reel</h2>
             <div class="reel">
                 <video id="reel" src="Assets/DemoReel.mp4" controls controlslist="nodownload" preload="metadata" playsinline></video>
             </div>
+        </section>
+
+        <section id="projects">
+            <h2 class="section-title">Projects</h2>
             <div class="projects">
                 <a class="project" href="https://teamkrakenhunters.itch.io/flashes-of-madness" target="_blank" rel="noopener">
                     <img src="Assets/img/flashes-of-madness.jpg" alt="Flashes of Madness cover art" loading="lazy">
@@ -630,7 +618,7 @@
                         </div>
                     </div>
                 </div>
-                <div>
+                <div class="studies">
                     <h2 class="section-title">Studies</h2>
                     <div class="study">
                         <div class="icon">
